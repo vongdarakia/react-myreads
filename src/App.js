@@ -1,5 +1,5 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ListBook from './Components/ListBook'
 import SearchBook from './Components/SearchBook'
@@ -16,13 +16,21 @@ class BooksApp extends React.Component {
     showSearchPage: false
   }
 
+  moveTo(book, shelf) {
+	  console.log(shelf);
+	  BooksAPI.update(book, shelf);
+  }
+
   render() {
     return (
 		<BrowserRouter>
 	    	<div className="app">
 				<Switch>
 					<Route exact path="/" component={ListBook} />
-					<Route path="/search" something="hello" component={SearchBook}/>
+					<Route path="/search" moveTo={this.moveTo.bind(this)} render={(props) => {
+						return (<SearchBook {...props} moveTo={this.moveTo.bind(this)} />)
+						// return React.createElement(SearchBook, {moveTo: });
+					}}/>
 					<Redirect to="/" />
 				</Switch>
 	     	</div>

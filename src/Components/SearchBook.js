@@ -30,6 +30,8 @@ class SearchBook extends Component {
 	}
 	render() {
 		// console.log(this.props);
+		let { moveTo } = this.props;
+		// console.log(moveTo)
 		return (
 			<div className="search-books">
 			  <div className="search-books-bar">
@@ -52,7 +54,7 @@ class SearchBook extends Component {
 			  <div className="search-books-results">
 				<ol className="books-grid">
 					{this.state.books.map((book, idx) => (
-						<li key={"book-" + book.id}><Book book={book}/></li>
+						<li key={"book-" + book.id}><Book book={book} moveTo={moveTo}/></li>
 					))}
 				</ol>
 			  </div>
