@@ -1,20 +1,34 @@
 import React, { Component } from 'react'
-import { search } from '../BooksAPI'
+import { search, getAll } from '../BooksAPI'
+import Book from './Book';
 
 class SearchBook extends Component {
 	constructor() {
 		super();
 		this.state = {
-			query: ""
+			query: "",
+			books: []
 		};
+		console.log(getAll());
 	}
 	onChange(e) {
 		// console.log(e)
-		this.setState({query: e.target.value});
-		// console.log(search(this.state.query, 20))
+		let self = this;
+		console.log(self.state);
+		this.setState({query: e.target.value}, () => {
+			search(self.state.query, 20).then((res) => {
+				console.log(res);
+				if (res && !res.error) {
+					this.setState({books: res});
+				} else {
+					this.setState({books: []});
+				}
+				console.log(res);
+			});
+		});
 	}
 	render() {
-		console.log(this.props);
+		// console.log(this.props);
 		return (
 			<div className="search-books">
 			  <div className="search-books-bar">
@@ -33,7 +47,11 @@ class SearchBook extends Component {
 				</div>
 			  </div>
 			  <div className="search-books-results">
-				<ol className="books-grid"></ol>
+				<ol className="books-grid">
+					{this.state.books.map((book, idx) => (
+						<li key={"book-" + book.id}><Book book={book}/></li>
+					))}
+				</ol>
 			  </div>
 			</div>
 		);
