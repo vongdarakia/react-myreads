@@ -17,14 +17,14 @@ class Book extends Component {
 		let { book } = this.state;
 		book.shelf = e.target.value;
 		this.setState({ book }, () => {
-			moveTo(update, this.state.book.shelf);
+			update(book, this.state.book.shelf);
 		});
 	}
 
 	render() {
 		let { book, moveTo } = this.state;
-		console.log(this.state);
-		console.log(this.props);
+		// console.log(this.state);
+		// console.log(this.props);
 		// console.log(book);
 		let img = book.imageLinks ? book.imageLinks.smallThumbnail : "";
 		// let img = `http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api`
