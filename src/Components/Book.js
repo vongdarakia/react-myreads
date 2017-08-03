@@ -11,13 +11,22 @@ class Book extends Component {
 	}
 	componentDidMount() {
 		this.setState({book: this.props.book});
+		// if (this.props.updateProject)
 	}
 
 	onSelect(e) {
 		let { book } = this.state;
-		book.shelf = e.target.value;
+		let catFrom = book.shelf;
+		let catTo = e.target.value;
+		book.shelf = catTo;
+		let self = this;
+
 		this.setState({ book }, () => {
-			update(book, this.state.book.shelf);
+			update(book, self.state.book.shelf).then(() => {
+				if (self.props.updateProject) {
+					self.props.updateProject(book, catFrom, catTo);
+				}
+			});
 		});
 	}
 
