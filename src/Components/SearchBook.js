@@ -32,6 +32,7 @@ class SearchBook extends Component {
 		let self = this;
 
 		this.setState({query: e.target.value}, () => {
+			if (self.state.query === "") return;
 			search(self.state.query, 20).then((res) => {
 				if (res && !res.error) {
 					this.setState({books: res});
