@@ -64,10 +64,10 @@ class SearchBook extends Component {
 							// because this has the actual shelf state.
 							if (myBooks[book.id]) {
 								return (
-									<li key={book.id}><Book book={myBooks[book.id]} /></li>
+									<li key={book.id + idx}><Book book={myBooks[book.id]} /></li>
 								);
 							}
-							return (<li key={book.id}><Book book={book} /></li>);
+							return (<li key={book.id + idx}><Book book={book} /></li>);
 						})}
 					</ol>
 				</div>
