@@ -7,9 +7,6 @@ class ListBook extends Component {
 	constructor() {
 		super();
 		this.state = {
-			currentlyReadingBooks: [],
-			wantToReadBooks: [],
-			readBooks: [],
 			collection: {
 				read: [],
 				wantToRead: [],
@@ -35,22 +32,22 @@ class ListBook extends Component {
 				});
 
 				self.setState({
-					collection: {
-						read, wantToRead, currentlyReading
-					}
+					collection: { read, wantToRead, currentlyReading }
 				});
 			}
-		})
+		});
 	}
 
 	onMoveBook(book, catFrom, catTo) {
 		let collection = this.state.collection;
 
 		let deletingFrom = collection[catFrom];
-		let addingTo = collection[catTo];
-
 		deletingFrom = deletingFrom.filter((item) => { return item.id !== book.id; });
-		addingTo.push(book);
+
+		let addingTo = collection[catTo];
+		if (addingTo) {
+			addingTo.push(book);
+		}
 
 		collection[catFrom] = deletingFrom;
 		collection[catTo] = addingTo;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { search } from '../BooksAPI'
+import { search, getAll } from '../BooksAPI'
 import Book from './Book';
 import { Link } from 'react-router-dom'
 
@@ -8,8 +8,24 @@ class SearchBook extends Component {
 		super();
 		this.state = {
 			query: "",
-			books: []
+			books: [],
+			myBooks: {}
 		};
+	}
+
+	componentDidMount() {
+		// Keep note of all books in the collection so that the shelf
+		// state of the book can be displayed accurately.
+		getAll().then((res) => {
+			let myBooks = {};
+
+			if (res && !res.error) {
+				res.forEach((book) => {
+					myBooks[book.id] = book;
+				});
+				this.setState({ myBooks });
+			}
+		})
 	}
 
 	onChange(e) {
@@ -22,11 +38,13 @@ class SearchBook extends Component {
 				} else {
 					this.setState({books: []});
 				}
+				console.log(res);
 			});
 		});
 	}
 
 	render() {
+		let { books, myBooks } = this.state;
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
@@ -42,9 +60,16 @@ class SearchBook extends Component {
 				</div>
 				<div className="search-books-results">
 					<ol className="books-grid">
-						{this.state.books.map((book, idx) => (
-							<li key={"book-" + book.id}><Book book={book} /></li>
-						))}
+						{books.map((book, idx) => {
+							// Use the book from the collection if it exists
+							// because this has the actual shelf state.
+							if (myBooks[book.id]) {
+								return (
+									<li key={book.id}><Book book={myBooks[book.id]} /></li>
+								);
+							}
+							return (<li key={book.id}><Book book={book} /></li>);
+						})}
 					</ol>
 				</div>
 			</div>
