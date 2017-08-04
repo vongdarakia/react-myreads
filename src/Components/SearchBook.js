@@ -38,7 +38,6 @@ class SearchBook extends Component {
 				} else {
 					this.setState({books: []});
 				}
-				console.log(res);
 			});
 		});
 	}
